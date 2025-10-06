@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestor de Categorías Globales</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /*body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #eee;
+    }
+
+    header {
+      background-color: #1e1e1e;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .category-tree {
+      margin-top: 20px;
+      border-left: 2px solid #333;
+      padding-left: 10px;
+    }
+
+    .category-item {
+      margin: 8px 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .category-item:hover {
+      background-color: #1e1e1e;
+    }
+
+    .category-actions button {
+      margin-left: 5px;
+      background: #333;
+      border: none;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .category-actions button:hover {
+      background: #555;
+    }
+
+    .form-container {
+      background: #1b1b1b;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    input, textarea, select {
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 5px;
+      width: 100%;
+      margin: 5px 0;
+    }
+
+    .btn-primary {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+      background-color: #45a049;
+    }
+
+    .color-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }*/
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+        <h2>Menú</h2>
+        <ul>
+            <li id="config-menu">Configuración</li>
+            <li id="addons-menu">Addons</li>
+            <li id="categories-menu" class="active">Categorías</li>
+            <li id="addons-config-menu">Configurar Addons</li>
+        </ul>
+        <div id="config-panel">
+            <input type="text" id="kodi-ip" placeholder="IP de Kodi" value="192.168.0.14:8080">
+            <input type="text" id="username" placeholder="Usuario" value="kodi">
+            <input type="password" id="password" placeholder="Contraseña" value="1234">
+            <input type="text" id="preferred-audio" placeholder="Idioma preferido (ej. es)" value="es">
+            <input type="text" id="secondary-audio" placeholder="Idioma secundario (ej. en)" value="en">
+            <button id="load-addons-btn">Cargar Addons</button>
+        </div>
+    </aside>
+
+    <main class="main-content">  
+      <div id="categoryTree" class="category-tree">
+        <!-- Aquí se mostrará el árbol dinámicamente -->
+      </div>
+
+      <!-- Botones Exportar / Importar -->
+      <div style="margin-top:10px;">
+          <button class="btn-primary" id="exportCategories">Exportar JSON</button>
+          <input type="file" id="importCategories" accept=".json" style="margin-left:10px;">
+      </div>
+
+      <div class="form-container" id="formContainer" style="display: none;">
+        <h2 id="formTitle">Nueva Categoría</h2>
+        <input type="hidden" id="categoryId" />
+        <label>Nombre:</label>
+        <input type="text" id="categoryName" placeholder="Nombre de la categoría" />
+
+        <label>Color:</label>
+        <input type="color" id="categoryColor" value="#4CAF50" />
+
+        <label>Icono (URL o emoji):</label>
+        <input type="text" id="categoryIcon" placeholder="🔖 o https://..." />
+
+        <label>Descripción:</label>
+        <textarea id="categoryDescription" rows="3" placeholder="Descripción breve..."></textarea>
+
+        <label>Subcategoría de:</label>
+        <select id="parentCategory">
+          <option value="">(Ninguna)</option>
+        </select>
+
+        <button class="btn-primary" id="saveCategory">Guardar</button>
+        <button id="cancelForm">Cancelar</button>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="../js/categories/ui.js"></script>
+</body>
+</html>

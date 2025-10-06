@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecto App Kodi - Documentación y Kanban</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f7f7f7; }
+nav { background:#222; color:#fff; padding:10px; display:flex; gap:10px; }
+nav button { padding:5px 10px; border:none; background:#444; color:#fff; cursor:pointer; border-radius:4px; }
+nav button.active { background:#ff9800; }
+section { display:none; padding:20px; }
+section.active { display:block; }
+h1, h2, h3 { margin-top:1em; }
+pre { background:#eee; padding:10px; border-radius:4px; overflow-x:auto; }
+.kanban-container { display:flex; gap:10px; justify-content: center; margin-top:20px; flex-direction: column; }
+.column { background:#eee; padding:10px; border-radius:6px; min-height:300px; }
+.column h2 { text-align:center; }
+.task { background:#fff; padding:10px; margin:10px 0; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+.task.completed { background:#d4edda; }
+.subtasks { margin-left:20px; }
+label { cursor:pointer; display:block; margin:3px 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <button id="docBtn" class="active">Documentación</button>
+  <button id="kanbanBtn">Tablero Kanban</button>
+</nav>
+
+<!-- Documentación extensa -->
+<section id="docSection" class="active">
+  <h1>Proyecto App Kodi</h1>
+  <p>La aplicación <strong>App Kodi estilo Netflix</strong> permite controlar Kodi desde un navegador web, mostrar addons seleccionados y categorizados, realizar búsquedas avanzadas y reproducir contenido de manera centralizada. Está diseñada para ser <strong>personalizable, portable y compartible</strong>, con un sistema de configuración exportable en JSON.</p>
+
+  <h2>1. Funcionalidades actuales</h2>
+  <ul>
+    <li><strong>Control remoto básico:</strong> reproducir, pausar, stop, subir/bajar volumen.</li>
+    <li><strong>Navegación por Kodi:</strong> botones arriba, abajo, izquierda, derecha, enter y búsqueda de texto (input con Enter).</li>
+    <li><strong>Gestión de addons:</strong> mostrar solo addons habilitados, cargar contenido dinámico y navegar por carpetas y subcarpetas.</li>
+    <li><strong>Categorización automática:</strong> extrae categorías de los metadatos disponibles (género, año, tipo) y permite al usuario crear categorías personalizadas.</li>
+    <li><strong>Crawler de contenido:</strong> recorre los addons seleccionados y genera JSON con el contenido, optimizando la navegación y búsqueda.</li>
+    <li><strong>Persistencia:</strong> se guardan configuraciones y progreso de tareas usando <code>localStorage</code> y JSON exportable.</li>
+  </ul>
+
+  <h2>2. Configuración de addons</h2>
+  <p>Ejemplo de configuración JSON de los addons habilitados y sus categorías/subcategorías:</p>
+  <pre>
+{
+  "addons": [
+    {
+      "id": "alfa",
+      "name": "Alfa",
+      "enabled": true,
+      "categories": [
+        {
+          "id": "recent-movies",
+          "name": "Movies",
+          "dynamicUpdate": false,
+          "subcategories": [
+            {
+              "id": "recent-movies-horror",
+              "name": "Horror",
+              "dynamicUpdate": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "balandro",
+      "name": "Balandro",
+      "enabled": false,
+      "categories": []
+    }
+  ]
+}
+  </pre>
+
+  <h2>3. Ejemplo de contenido almacenado</h2>
+  <pre>
+{
+  "content": [
+    {
+      "id": "item12345",
+      "title": "Invasión 2025",
+      "addon": "alfa",
+      "file": "plugin://alfa/recent/movies/invasion2025.mkv",
+      "meta": { "year": 2025, "genre": ["Horror","Sci-Fi"], "actors": ["Actor A","Actor B"] },
+      "categories": ["Horror","2025","Sci-Fi"],
+      "lastUpdated": "2025-10-03T12:00:00Z"
+    }
+  ]
+}
+  </pre>
+
+  <h2>4. Funcionalidades futuras / roadmap</h2>
+  <ul>
+    <li>Selección de addons activos/inactivos con interfaz gráfica.</li>
+    <li>Definición de carpetas y subcarpetas visibles, asignando categorías y subcategorías.</li>
+    <li>Gestión de contenido paginado (next, siguientes) por addon.</li>
+    <li>Exportación e importación de configuraciones JSON para compartir setups.</li>
+    <li>Interfaz de control remoto completa con botones de navegación y entrada de texto para Kodi.</li>
+    <li>Actualizaciones automáticas de contenido según configuración de categorías dinámicas.</li>
+    <li>Optimización de búsqueda y filtrado de contenido paginado.</li>
+  </ul>
+
+  <h2>5. Ejemplo de navegación y categorización</h2>
+  <p>Supongamos que el usuario quiere tres categorías: <strong>Deportes, Películas, Series</strong>. Los addons seleccionados son <strong>alfa</strong>, <strong>balandro</strong> y <strong>elementum</strong>. Cada contenido se asigna automáticamente según su metadata:</p>
+  <ul>
+    <li>Películas de todos los addons → categoría "Películas"</li>
+    <li>Deportes/fútbol → categoría "Deportes/fútbol"</li>
+    <li>Contenido sin metadata → categoría "Desconocido"</li>
+  </ul>
+  <p>Esto permite centralizar todo el contenido por categoría, facilitando búsquedas, navegación y reproducción.</p>
+
+  <h2>6. Interacción con Kodi</h2>
+  <ul>
+    <li>Reproducir un item usando la función <code>playItem(file)</code>.</li>
+    <li>Control de volumen y reproducción a través de botones globales.</li>
+    <li>Navegación por menús Kodi usando flechas y Enter, incluyendo input de texto para búsquedas.</li>
+  </ul>
+
+</section>
+
+<!-- Kanban dinámico -->
+<section id="kanbanSection">
+  <h1>Tablero Kanban Dinámico</h1>
+  <p>Las tareas se mueven automáticamente entre columnas según el progreso de sus subtareas y se guardan en <code>localStorage</code>.</p>
+  <div class="kanban-container">
+    <div class="column" id="todoColumn"><h2>Por hacer</h2></div>
+    <div class="column" id="doingColumn"><h2>Haciendo</h2></div>
+    <div class="column" id="doneColumn"><h2>Hecho</h2></div>
+  </div>
+</section>
+
+<script>
+// Navegación de secciones
+const docBtn = document.getElementById('docBtn');
+const kanbanBtn = document.getElementById('kanbanBtn');
+const docSection = document.getElementById('docSection');
+const kanbanSection = document.getElementById('kanbanSection');
+
+docBtn.onclick = () => {
+  docSection.classList.add('active');
+  kanbanSection.classList.remove('active');
+  docBtn.classList.add('active');
+  kanbanBtn.classList.remove('active');
+};
+kanbanBtn.onclick = () => {
+  docSection.classList.remove('active');
+  kanbanSection.classList.add('active');
+  docBtn.classList.remove('active');
+  kanbanBtn.classList.add('active');
+};
+
+// Kanban data
+const kanbanData = [
+  {
+    id: 't1',
+    title: 'Gestor de Categorías Globales',
+    subtasks: [
+      'Crear interfaz para añadir, editar y eliminar categorías globales',
+      'Permitir subcategorías hasta 3 niveles jerárquicos',
+      'Guardar categorías globales en categories.json o localStorage',
+      'Mostrar árbol visual expandible/colapsable',
+      'Permitir asociar iconos, colores y descripciones a cada categoría'
+    ]
+  },
+  {
+    id: 't2',
+    title: 'Configuración de Addons',
+    subtasks: [
+      'Listar addons instalados en Kodi (ej: Alfa, Balandro, Elementum...)',
+      'Permitir activar o desactivar addons individuales',
+      'Seleccionar categorías globales aplicables a cada addon',
+      'Configurar palabras de paginación por addon (next, siguiente, ver más...)',
+      'Guardar configuración de addons en addons_config.json o localStorage'
+    ]
+  },
+  {
+    id: 't3',
+    title: 'Selector de Configuración Activa',
+    subtasks: [
+      'Permitir guardar múltiples configuraciones personalizadas de usuario',
+      'Mostrar lista de configuraciones guardadas con nombres personalizados',
+      'Cargar automáticamente la configuración activa al iniciar la app',
+      'Permitir cambiar la configuración activa desde un menú desplegable',
+      'Sincronizar configuraciones con las categorías y addons seleccionados'
+    ]
+  },
+  {
+    id: 't4',
+    title: 'Crawler y Gestión de Contenido',
+    subtasks: [
+      'Recorrer addons activos y obtener contenido de carpetas seleccionadas',
+      'Guardar contenido categorizado según meta o categorías definidas',
+      'Soportar dynamicUpdate para actualizaciones periódicas',
+      'Optimizar crawling evitando exploraciones profundas innecesarias',
+      'Guardar resultados en content.json estructurado por tipo (películas, series, etc.)'
+    ]
+  },
+  {
+    id: 't5',
+    title: 'Interfaz de Usuario y Navegación',
+    subtasks: [
+      'Mostrar contenido agrupado por categorías globales y subcategorías',
+      'Añadir controles de navegación (↑ ↓ ← → y Enter) para Kodi',
+      'Añadir input de texto para búsqueda o entrada directa en addons',
+      'Diseñar UI responsiva optimizada para escritorio y móviles',
+      'Sincronizar controles de reproducción (Play/Pausa/Stop/Volumen)'
+    ]
+  },
+  {
+    id: 't6',
+    title: 'Persistencia y Portabilidad',
+    subtasks: [
+      'Guardar configuraciones de usuario en JSON exportable/importable',
+      'Guardar progreso de tareas y estados en localStorage',
+      'Permitir compartir configuraciones con otros usuarios (futuro marketplace)',
+      'Mantener sincronía entre configuraciones, categorías y contenido',
+      'Implementar recuperación automática de la última sesión activa'
+    ]
+  },
+  {
+    id: 't7',
+    title: 'Extras y Mejoras',
+    subtasks: [
+      'Botón “Actualizar ahora” en la interfaz principal',
+      'Diseño y guardado de preferencias de usuario (frecuencia de actualización, vista, tema)',
+      'Optimización de búsqueda y filtrado en contenido paginado',
+      'Integración futura con repositorio de configuraciones compartidas',
+      'Pruebas unitarias y validación de persistencia de datos'
+    ]
+  }
+];
+
+// Funciones localStorage
+function loadState() { const stored = localStorage.getItem('kanbanState'); return stored ? JSON.parse(stored) : {}; }
+function saveState(state) { localStorage.setItem('kanbanState', JSON.stringify(state)); }
+
+// Renderizar kanban con movimiento automático
+function renderKanban() {
+  const state = loadState();
+  const todoCol = document.getElementById('todoColumn');
+  const doingCol = document.getElementById('doingColumn');
+  const doneCol = document.getElementById('doneColumn');
+
+  todoCol.innerHTML = '<h2>Por hacer</h2>';
+  doingCol.innerHTML = '<h2>Haciendo</h2>';
+  doneCol.innerHTML = '<h2>Hecho</h2>';
+
+  kanbanData.forEach(task => {
+    const taskDiv = document.createElement('div');
+    taskDiv.className = 'task';
+
+    const allSubCompleted = task.subtasks.every(sub => state[`${task.id}-${sub}`]);
+    const anySubCompleted = task.subtasks.some(sub => state[`${task.id}-${sub}`]);
+
+    if(allSubCompleted) taskDiv.classList.add('completed');
+
+    const taskTitle = document.createElement('h3');
+    taskTitle.textContent = task.title;
+    taskDiv.appendChild(taskTitle);
+
+    const subtasksDiv = document.createElement('div');
+    subtasksDiv.className = 'subtasks';
+
+    task.subtasks.forEach(sub => {
+      const label = document.createElement('label');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = !!state[`${task.id}-${sub}`];
+      checkbox.onchange = () => {
+        state[`${task.id}-${sub}`] = checkbox.checked;
+        saveState(state);
+        renderKanban();
+      };
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(' ' + sub));
+      subtasksDiv.appendChild(label);
+    });
+
+    taskDiv.appendChild(subtasksDiv);
+
+    // Determinar columna
+    if(allSubCompleted) doneCol.appendChild(taskDiv);
+    else if(anySubCompleted) doingCol.appendChild(taskDiv);
+    else todoCol.appendChild(taskDiv);
+  });
+}
+
+// Inicializar
+renderKanban();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control Kodi - Addons</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-container">
+    <aside class="sidebar">
+        <h2>Menú</h2>
+        <ul>
+            <li id="config-menu">Configuración</li>
+            <li id="addons-menu" class="active">Addons</li>
+            <li id="categories-menu">Categorías</li>
+            <li id="addons-config-menu">Configurar Addons</li>
+        </ul>
+        <div id="config-panel">
+            <input type="text" id="kodi-ip" placeholder="IP de Kodi" value="192.168.0.14:8080">
+            <input type="text" id="username" placeholder="Usuario" value="kodi">
+            <input type="password" id="password" placeholder="Contraseña" value="1234">
+            <input type="text" id="preferred-audio" placeholder="Idioma preferido (ej. es)" value="es">
+            <input type="text" id="secondary-audio" placeholder="Idioma secundario (ej. en)" value="en">
+            <button id="load-addons-btn">Cargar Addons</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div id="status" class="status"></div>
+        <div id="breadcrumb"></div>
+        <button id="toggle-debug-info" style="margin-bottom:10px;">Mostrar información avanzada</button>
+        <button id="toggle-filter" style="margin-bottom:10px;">Desactivar filtro de unknown</button>
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="🔍 Buscar...">
+        </div>
+        <div id="content-list" class="grid"></div>
+        <div id="player-controls"></div>
+    </main>
+</div>
+
+<div id="loading-spinner" style="display:none;">
+  <div class="spinner"></div>
+  <p>Esperando respuesta de Kodi...</p>
+</div>
+
+<script type="module" src="js/app.js" defer></script>
+</body>
+</html>

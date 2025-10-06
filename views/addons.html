@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuración de Addons</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="app-container">
+    <aside class="sidebar">
+        <h2>Menú</h2>
+        <ul>
+            <li id="config-menu">Configuración</li>
+            <li id="addons-menu">Addons</li>
+            <li id="categories-menu">Categorías</li>
+            <li id="configure-addons-menu" class="active">Configurar Addons</li>
+        </ul>
+        <div id="config-panel">
+            <input type="text" id="kodi-ip" placeholder="IP de Kodi" value="192.168.0.14:8080">
+            <input type="text" id="username" placeholder="Usuario" value="kodi">
+            <input type="password" id="password" placeholder="Contraseña" value="1234">
+            <input type="text" id="preferred-audio" placeholder="Idioma preferido (ej. es)" value="es">
+            <input type="text" id="secondary-audio" placeholder="Idioma secundario (ej. en)" value="en">
+            <button id="load-addons-btn">Cargar Addons</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <h1>Configuración de Addons</h1>
+        <div id="addonsList" class="grid"></div>
+        <button id="saveAllBtn" class="save-btn">Guardar Configuración</button>
+    </main>
+</div>
+
+<script type="module" src="../js/addons/config.js"></script>
+</body>
+</html>
